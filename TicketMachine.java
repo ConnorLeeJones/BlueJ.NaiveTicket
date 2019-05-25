@@ -17,6 +17,8 @@ public class TicketMachine
     private int balance;
     // The total amount of money collected by this machine.
     private int total;
+    
+    private int status;
 
     /**
      * Create a machine that issues tickets of the given price.
@@ -30,6 +32,14 @@ public class TicketMachine
         total = 0;
     }
 
+    
+    public TicketMachine()
+    {
+        price = 500;
+    }
+    
+
+    
     /**
      * Return the price of a ticket.
      */
@@ -46,13 +56,56 @@ public class TicketMachine
     {
         return balance;
     }
-
+    
+    
+    //added
+    public int getTotal()
+    {
+        return total;
+    }
+    
+    public void prompt()
+    {
+        System.out.println("Please insert the correct amount of money");
+    }
+    
+    
+    public void showPrice()
+    {
+        System.out.println("The price of a ticket is " + price + " cents.");
+    }
+    
+    
+    public void removeMoney()
+    {
+        total = 0;
+    }
+    
+    public void setPrice(int newTicketCost)
+    {
+        price = newTicketCost;
+    }
+    
+    
+    public int emptyMachine() {
+        int tempTotal = total;
+        total = 0;
+        return tempTotal;
+        
+    }
+    
+    
+    //end added
     /**
      * Receive an amount of money in cents from a customer.
      */
     public void insertMoney(int amount)
     {
-        balance = balance + amount;
+        if (amount >= 0) {
+            balance = balance + amount;
+        } else {
+            System.out.println("Use a positive amount: " + amount);
+        }
     }
 
     /**
@@ -63,6 +116,12 @@ public class TicketMachine
     public void printTicket()
     {
         // Simulate the printing of a ticket.
+        
+        int amountLeftToPay = price - balance;
+
+        
+        
+        if (amountLeftToPay <= 0) {
         System.out.println("##################");
         System.out.println("# The BlueJ Line");
         System.out.println("# Ticket");
@@ -71,8 +130,22 @@ public class TicketMachine
         System.out.println();
 
         // Update the total collected with the balance.
-        total = total + balance;
+        total = total + price;
         // Clear the balance.
-        balance = 0;
+        balance = balance - price;
+    }   else {
+        System.out.println("You must insert at least: " + (amountLeftToPay) + " cents.");
     }
 }
+    
+    public int refundBalance() {
+        int amountToRefund;
+        amountToRefund = balance;
+        balance = 0;
+        return amountToRefund;
+    }
+}
+
+
+
+
